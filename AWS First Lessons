@@ -1,0 +1,72 @@
+First day in AWS Management Console
+
+IAM - Making a user with ADMIN permissions
+Logged onto Root to access IAM to enable MFA and create a new user
+
+Access IAM from the search bar, then click on the left side USER, and then Create User.
+Then submit the requested information including IAM user management and autogenerate password.
+
+In Step three of the permissions, to make a new admin group click "Create New Group" and enter Admin into the "User Group Name" then select AdministratorAccess to give nearly all permissions that root user has.
+Add tags if you wish and then proceed to create user.
+
+When signing into the new user, when prompted to enter a new password it is advised to use a secure password generator with 48 characters including difficult symbols and characters
+
+Final thoughts. I didn't have the same screen and options as the tutorial I was watching online. I will have to reference the course I have coming up in a few days to ensure I properly understand how to implement all features required to make a successful user.
+I am currently getting an error as follows that I need to figure out.:
+User: arn:aws:iam::381492189932:user/WilliamBiggar
+Service: servicecatalog
+Action: ListApplications
+On resource(s): arn:aws:servicecatalog:us-east-2:381492189932:/applications/*
+
+AWS Region Selector
+
+Typically the Region is defaulted to Ohio or US East 2. But we should swap it to US East 1 so that we get access to original features. Billing and such will only show up in US East 1.
+Other services like Cloud Front are global services. Additionally S3 is global but EC2 is exclusive to US East 1.
+
+Overbilling 
+Benefit - Utilizes Metered Billing, however it can be a double edge sword and can become very expensive if left unattended
+An example - ElastiCache - Redis Instance - The guy was trying to store a single value but AWS likes to put the Node type as cache l6g large (13.07GB) as a default
+Cost of l6g large (13.07GB) is 0.206 per hour. 0.206*730 (730 is the amount of time in a month) equates to $150 dollars of spending.
+
+If this happens you can go to customer support and create a case in the Billing and "Charge Inquiry" section. If you explain nicely to customer support that the error was made they will typically give you a free pass on the first time and warn you
+that in the future the bill will remain.
+
+AWS Budgets
+Type Budget in search and select AWS Budgets
+The first two AWS actions are free
+
+Before making a budget ensure that on root account IAM user and role access to Billing Information is set to Active. This can be found in Account > Billing and Payments and scrolling down to find the option
+
+Navigate to Billing Console > Budgets > Create budget
+
+SNS Notifications
+Many things can be connected to send SNS to email etc for updates and changes
+
+AWS Free Tier - First 12 months
+To learn about all the features go to google and search "AWS Free Tier Details"
+Some features are only available the first two months
+To check if you are still in the AWS Free Tier navigate to Billing and Cost Management > Billing Preferences > then select Receive Free Tier Usage Alerts and enter an email address to receive updates
+Also turn on Billing alerts - I didn't find the way to do that it may be deprecated 
+
+Billing Alarm - Old way but recommended because of flexability 
+They do cost money
+CloudWatch - Billing - Alarms - Set rules to establish the alarm and arrange for email to have notifications sent
+
+Root User - Multifactor Authentication
+IAM - Front page set up MF authentication
+Put device name and then select an option. Personally I use athenticator app
+Download authenticator app to verify by scanning QR code provided and giving two required keys
+
+Innovation waves
+Kondratieve waves (aka Innovation Waves or K-Waves) are hypothosized cycle-like phenomena in the global world economy. The phenomenon is closely connected with Technology life cycles. 
+It is made up of four stages Prosperity, recession, depression, improvement
+
+Burning platform
+a term used when a company abandons old technology for new technology with the uncertainty of success and can be motivated by fear that the organizations future survival hinges on its digital transformation
+
+Digital Transformation Checklist
+High level white paper to allow information to share with executives and key decision makers to determine what is required to make required digital changes to the organization
+
+Evolution of Computing Power
+General computing (Xeon CPU Processor) - Elastic Compute Cloud EC2, GPU Computing (roughly 50 times faster than traditional CPUs) - AWS Inferentiare (Inf1), Quantum Computing (D-Wave 2000Q, Rigetti 16q Aspen-4, IonQ linear ion trap, 100 million times faster), AWS Bracket
+
