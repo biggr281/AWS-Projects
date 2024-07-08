@@ -68,5 +68,409 @@ Digital Transformation Checklist
 High level white paper to allow information to share with executives and key decision makers to determine what is required to make required digital changes to the organization
 
 Evolution of Computing Power
-General computing (Xeon CPU Processor) - Elastic Compute Cloud EC2, GPU Computing (roughly 50 times faster than traditional CPUs) - AWS Inferentiare (Inf1), Quantum Computing (D-Wave 2000Q, Rigetti 16q Aspen-4, IonQ linear ion trap, 100 million times faster), AWS Bracket
+General computing (Xeon CPU Processor) - Elastic Compute Cloud EC2, GPU Computing (roughly 50 times faster than traditional CPUs) - AWS Inferentiare (Inf1), Quantum Computing (D-Wave 2000Q, Rigetti 16q Aspen-4, IonQ linear ion trap, 100 million times faster)
+
+Amazon Braket - Quantum Computing - AWS list is missing both Fault Tolerance and Disaster Recovery as important benefits
+
+The Benefits of the Cloud
+- Agility
+  - Increase your speed and agility
+- Pay-as-you go pricing
+  - Trade capital expense for variable expense
+- Economy of scale
+  - Benefit from massive economies of scale
+- Global Reach
+  - Go global in minutes
+- Security
+-Reliability
+  - Stop spending money on running and maintaining data centers
+- High availability
+- Scalability
+  - benefit from massive economies of scale
+- Elasticity
+
+The Six Advantages of the Cloud - Defined by AWS (original descriptionf of Cloud Benefits
+
+1. Trade capital expense for variable expense
+You can Pay On-Demand meaning there is no upfront-cost and you pay for only what you consume or pay by the hour, minutes or seconds.
+Instead of paying for upfront costs of data centers and servers
+2. Benefit from massive economies of scale
+You are sharing the cost with other customers to get unbeatable savings.
+Hundreds of thousands of customers utilizing a fraction of a server
+3. Scale up or down to meet the current need. Launch and destroy services whenever
+Instead of paying for idle or underutilized servers
+4. Increase speed and agility
+Launch resources within a few clicks in minutes
+Instead of waiting days or weeks of your IT to implement the solution on-premise
+5. Stop spending money on running and maintaining data centers
+Focus on your own customers, developing and configuring your applications
+Instead of operations such as racking, stacking, and powering servers
+6. Go global in minutes
+Deploy your app in multiple regions around the world with a few clicks
+Provide lower latency and a better experience for your customer at minimal cost
+
+The Six Advantages of Cloud Doc Reference
+https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cloud-computing.html
+
+Updated - The Benefits of the Cloud - The Seven Advantages of Cloud
+1. Cost-effective
+Yuo pay for what you consume, no up-front cost. On-demand pricing or Pay-as-you-go (PAYG) with thousands of customers sharing the cost of the resources
+2. Global 
+Launch workloads anywhere in the world. Just choose a region
+3. Secure
+Cloud provider takes care of physical security. Cloud services can be secure by default or you have the ability to configure access down to a granular level.
+4. Reliable
+Data backup, disaster recovery, data replication, and fault tolerance
+5. Scalable
+Increase or decrease resources and services based on demand
+6. Elastic 
+Automate scaling during spikes and drop in demand
+7. Current
+The underlying hardware and managed software is patched, upgraded and replaced by the cloud provider without interruption to you
+
+AWS Global Infrastructure
+What is it?
+The AWS Global Infrastructure is globally distributed hardware and datacenters that are physically networked together to act as one large resource for the end customer
+
+The AWS Global Infrastructure is made up of the following resources:
+- 33 Launched Regions
+- 105 Availability Zones
+- 115 Direct Connection Locations
+- 600+ Points of Presence
+- 41 Local Zone
+- 29 Wavelength Zones
+
+Reference: https://aws.amazon.com/about-aws/global-infrastructure/
+
+When a new area is first opened the Availability Zones should be at a minimum 3 because that is how you achieve high availability
+
+Regions
+Regions are geographically distinct locations consisting of one or more Availability Zones.
+- Every region is physically isolated from an independent of every other region in terms of location, power, water supply
+
+Each region generally has three Availability Zones
+- Some new users are limited to two eg. US-West 
+- New services are almost always available first in US-EAST
+- Not all AWS Services are available in all regions
+- All your billing inforamtion appears in US-EAST-1 (North Virginia)
+- The cost of AWS services vary per region
+
+When you choose a region there are four factors you need to consider:
+1. What Regulatory compliance does this region meet?
+2. What is the cost of AWS services in this region?
+3. What AWS services are available in this region?
+4. What is the distance or latency to my end-users?
+
+Regions vs Global Services
+Regional Services
+AWS scopes their AWS Management Console on a selected Region.
+- This will determine where an AWS service will be launched and what will be seen within an AWS Service's console
+- You generally don't explicitly set the Region for a service at the time of creation
+Global Services
+Some AWS Services operate across multiple regions and the region will be fixed to "Global" e.g. Amazon S3, CloudFront, Route53, IAM
+For these global services at the time of creation:
+- There is no concept of region (IAM User)
+- A single region must be explicitly chosen (S3 Bucket)
+- A group of regions are chosen (CloudFront Distribution)
+
+Availability Zones (AZs)
+An Availability Zone (AZ) is physical location made up of one or more datacenter
+
+A datacenter is a secured building that contains hundreds of thousands of computers.
+
+A region will generally* contain 3 Availability Zones
+
+Datacenters within a region will be isolated from each other (different buildings). But they will be close enough to provide low-latency (<10ms).
+
+Its common practice to run workloads in at least 3 AZs to ensure services remain available in case one or two datacenters fail. (High Availability)
+
+AZs are represented by a Region Code, followed by a letter identifier eg. us-east-1a
+
+A Subnet is associated with an Availability Zone
+
+You never choose the AZ when launching resources. You choose the Subnet with is associated to the AZ.
+
+****Selecting regions and AZs - Instructuions weren't super clear in video please referene timestamp roughly 2:20:00
+
+Fault Tolerance
+What is a fault domain?
+A fault domain is a section of a network that is vulnerable to damage if a critical device or system fails. The purpose of a fault domain is that if a failure occurs it will not cascade outside that domain, limiting the damage possible.
+
+You can have fault domains nested inside fault domains
+
+What is a fault level?
+A fault level is a collection of fault domains
+- An AWS Region would be a Fault level - Fault Level = us-east-1 (region)
+- A Availability Zone would be a Fault Domain - Fault Domain = us-east-1a (AZ), Fault Domain = usa-east-b (AZ)
+
+The scope of a fault domain could be:
+- specific servers in a rack
+- an entire rack in a data center
+- an entire room in a datacenter
+- the entire data center building
+It's up the the Cloud Service Provider (CSPs) to define the boundaries of a domain
+
+Each Amazon Region is designed to be completely isolated from the other Amazon Regions.
+- This achieves the greatest possible fault tolerance and stability
+Each Availability Zone is isolated, but the Availability Zones in a Region are connected through low-latency links
+Each Availability Zone is designed as an independent failure zone
+- A "Failure Zone" is AWS describing a Fault Domain
+
+Failure Zone
+- Availability Zones are physically separated within a typical metropolitan region and are located in lower risk flood plains
+- discrete uninterruptible power supply (UPS) and onsite backup generation facilities
+- data centers located in different Availability Zones are designed to be supplied by independent substations to reduce the risk of an event oon the power grid impacting more than one Availability Zone
+- Availability Zones are all redundantly conencted to multiple tier-1 transit providers
+
+Multi-AZ for High Availability
+If an appklication is partitioned across AZs, companies are better isolated and protected from issues such as power outages, lightning strikes, tornadoes, earthquakes, and more
+
+AWS Global Network
+The AWS Global Network represent the interconnections between AWS Global Infrastructure. Commonly referred to as the "Backbone of AWS'. Think of it as private expressway, where things can move very fast between datacenters
+Edge Locations can act as on and off ramps to the AWS Global Network
+  On Ramps - AWS Global Accelerator, AWS S3 Transfer Acceleration - Uses Edge Locations as an on-ramp to quickly reach AWS resources in other regions by travsersing the fast AWS Global Network
+  Off Ramps - Amazon CloudFront (CDN) - Uses Edge Locations as an off-ramp, to provide at the Edge storage and compute near the end user.
+              VPC Endpoints - Ensuring your resources stay within the AWS Network and do not traverse over the public Internet
+
+Global Infrastructure - Points of Presence (PoP)
+Is an intermediate location between an AWS Region and the end user, and this location could be a datacenter or collection of hardware.
+  For AWS a Point of Presence is a datacenter owned by AWS or a trusted partner that is utilized by AWS Service related for content delivery or expediated upload
+PoP resources are:
+- Edge Locations
+- Regional Edge caches
+Edge Locations are datacenters that hold cached (copy) on the most popular files (eg web pages, images, and videos) so that the delivery of distance to the end users are reduced
+Regional Edge Locations aer datacenters that hold much larger caches of less-popular files to reduce a full round trip and also to reduce the cost of transfer fees
+PoPs live at the edge/intersection of two networks
+
+Tier 1
+Tier 1 Network is a network that can reach every other network on the Internet without purchasing IP transit or paying for peering
+AWS Availability Zones are all redundantly connected to multiple tier-1 transit providers
+
+AWS Services using PoPs
+The following AWS Services use PoPs for content delivery or expediated upload
+
+Amazon CloudFront is a Content Delivery network (CDN) service that:
+- You point your website to CloudFront so that it will route requests to nearest Edge Location cache
+- allows you to choose an origin (such as a web-server or storage) that will be source of cached
+- caches the contents of what origin would returned to various Edge Locations around the world
+
+Amazon S3 Transfer Acceleration allows you to generate a special URL that can be used by end users to upload files to nearby Edge Location. Once a file is uploaded to an Edge Location, it can move much faster within the AWS Network to reach S3
+
+AWS Global Acceslerator can find the optimal path from the end user to your web-servers. Global Accelerator are deployed within Edge Locations so you send user traffic to an Edge Location instead of directly to your web-application
+
+AWS Direct Connect
+is a private (doesn't mean secure)/dedicated connection between your datacenter, office, co-location and AWS
+
+Direct Connect has two very-fast network connection options:
+1. Lower Bandwidth 50MBps-500MBps
+2. Higher Bandwidth 1GBps or 10 GBps
+
+A colocation (aka carrier-hotel_ is a data center where equipment, space, and bandwidth are available for rental to retail customers
+
+It Helps reduce network costs and increase bandwidth throughpout (great for high traffic networks)
+It provides a more consistent network experience than a typical internet-based connection. (reliable and secure)
+
+Direct Connect Locations
+Direct connect Locations are trusted partnered datacenters that you can establish a dedicated high speed, low-latency connection from your on-premise to AWS
+You would yuse the AWS Direct connect service to order and establish a connection
+
+Local Zones
+are datacenters located very close to a densely populated area to provide single-digit millisecond low latency performance (eg 7ms) for that area
+- LA, california was the first Local Zone to be deployed
+  - It is a logical extension of the US-West Region
+  - The Identifier looks like the following: us-west-2-lax-1a
+- Only specific AWS Services have been made available
+  - EC2 Instance Types (T3, C5, R5, R5d, l3en, G4)
+  = EBS (io1 and gp2)
+  - Amazon FSx
+  - Application Load Balancer
+  - Amazon VPC
+
+The purpose of Local Zone is they support highly-demanding applications sensitive to latencies:
+- Media and Entertainment
+- Electronic Design Automation
+- Ad-Tech
+- Machine Learning
+
+Wavelength Zones
+allows for edge-computing on 5G networks. Applications will have ultra-low latency being as close as possible to the users
+
+AWS has partnered with various Telecom companies to utilize their 5G networks, such as: verizon, KDDI, vodafone, SK telecom
+
+You create a Subnet tied to a Wavelength zone and then you can launch Virtual Machines (VMs) to the edge of the targeted 5G Networks
+
+Data Residency
+Is the physical or geographic location of where an organization or cloud resources reside.
+
+Compliance Boundaries: A regulatory compliance (legal requirement) by a government or organization that describes where data and cloud resources are allowed to reside.
+
+Data Sovereignty: Data Sovereignty is the jurisdictional control or legal authority that can be asserted over data because it's physical location is within jurisdictional boundaries
+
+For workloads that need to meet compliance boundaries strictly defining the data residency of data and cloud resources in AWS you can use:
+- AWS Outposts is physical rack of servers that you can put in your data center. Your data will reside wherever the Outpost Physicall resides
+- AWS Config: a Policy as Code service. You can create rules for continuous check AWS resources configuration. If they deviate from your expectations you are alerted or AWS Config can in some cases auto-remediate
+- IAM Policies: can be written explicitly deny acess to specific AWS Regions. A Service Control Policy (SCP) are permissions applied organization wide.
+
+AWS For Government
+Public Sector includes military, law enforcement, infrastructure, public transit, public education, health care, the government itself
+AWS can be utilized by public sector or organizations developing cloud workloads for the public sector
+AWS achieves this by meeting regulatory compliance programs along with specific governance for security controls
+Compliance Bodies: HIPAA, FedRAMP, CJIS, FIPS
+AWS has special regions for US regulation called GovCloud
+
+GovCloud 
+Federal Risk and Authorization Management Program (FedRAMP)
+a US government-wide program that provides a standardized approach to security assessments, authorization, and continuous monitoring for cloud products and services.
+
+What is GovCloud?
+A Cloud Service Provider (CSP) generally will offer an isolated region to run FedRAMP workloads.
+
+AWS GovCloud Regions allow customers to host sensitive Controlled Unclassified Information and other types of regulated workloads.
+- GovCloud Regions are only operated by employees who are US citizens, on US soil.
+- They are only accessible to US entities and root account holders who pass a screening process
+Customers can architect secure cloud solutions that comply with:
+- FedRAMP High baseline
+- DOJs Criminal Justice Information Systems (CJIS) Security Policy
+- US International Traffic in Arms Regulations (ITAR)
+- Export Administration Regulations (EAR)
+- Department of Defense (DoD) Cloud Computing Security Requirements Guide
+
+AWS in China
+AWS China is the AWS cloud offerings in Mainland China.
+  AWS China is completely isolated intentionally from AWS Global to
+  meet regulatory compliance for Mainland China
+  AWS China is on its own domain at: amazonaws.cn
+
+In order to operate in a AWS China Region you need to have a Chinese Business License (ICP license)
+Not all services are available in China (eg Route53)
+Running in Mainland China (insetad of Singapore) means you will not need to traverse The Great Firewall
+
+AWS has two Regions in Mainland china:
+Ningxia CN-NorthWest-1 Operated by NSWCF
+Beijing CN-North-1 operated by SINNET
+
+Sustainability
+Amazon co-founded the Climate Pledge to achieve Net_Zero Carbon Emissions by 2040 across all of Amazon's business (this includes AWS) sustainability.aboutamazon.com
+
+AWS Cloud's Sustainability goals are composed of three parts:
+1. Renewable Energy
+AWS is working towards having their AWS Global Infrastructure powered by 100% renewable energy by 2025
+2. Cloud Efficieny
+AWS infrastructure is 3.6 times more energy efficient than the median of US enterprise data centers surveyed (could be heavly skewed)
+3. Water Stewardship
+Direct evaporative technology to cool the data centers
+Use of non-potable water for cooling purposes (recycled water)
+On site water treatment allows us to remove scale-forming minerals and reuse water for more cycles
+Water efficiency metrics to determine and monitor optimal water use for each AWS Region
+
+AWS Ground Station
+is a fully managed service that lets you control satellite communications, process data, and scale your operations without having to worry about building or managing your own ground station infrastructure
+Use Cases for Ground Station: weather forcasting, surface imaging, communications, video broadcasts
+To use Ground Station:
+- CYou schedule a Contact (select stellite, start and end time ,and the ground location)
+- use the AWS Ground Station EC2 AMI to launch EC2 instances that will uplink and downlink data during the contact or receive downlink data in an Amazon S3 bucket.
+Use Case: A company reaches an agreement with a Satellite Imagery Provider to take stellite photos of a specific region. They use AWS Ground Station to communicate that company's Satellite and download the S3 image data.
+
+AWS Outposts
+is a fully managed service that offers the same AWS infrastructuer, AWS services, APIs, and tools to virtually any datacenter, co-location space, or on-premise facility for a truly consistent hybrid experience.
+AWS Outposts is rack of servers running AWS Infrastructure on your physical location
+Server Rack: A frame design t ohold and organize IT equipment
+Rack Heights: U stands for "rack units" or "U spaces" which is equal to 1.75 inches. The industry standard rack size is 48U(7 Foot Rack)
+Full-size rack cage is 42U high
+- equipment is typically 1U, 2U, 3U, or 4U high
+AWS Outposts comse in 3 form factors: 42U, 1U and 2U
+42U -AWS delivers the server to your preferred physical site fully assembled and ready to be rolled into final position. It is installed by AWS and the rack needs to be simply plugged into power and network
+
+Both 1U and 2U are servers that you can place into your existing Racks:
+1U suitable for 19-inch wide
+24-inch deep cabinets
+AWS Graviton2 (up to 64 vCPUs)
+128 GiB memory
+4 TB of local NVMe storage
+
+2U suitable for 19-inch wide
+36-inch deep cabinets,
+Intel processor (up to 128 vCPUs)
+256 GiB memory
+8TB of local NVMe storage
+
+Cloud Architecture Terminology
+Solutions Architect: A role in a technocal organization that architects a technical solution using multiple systems via researching, documentation, experimentation
+Cloud Architect: A solution architect that is focused solely on architecting technical solutions using cloud services.
+
+A cloud architect needs to understand the following terms and factor them into their designed architecture based on the business requirements
+- Availability - Your ability to ensure a service remains available eg Highly Avaible (HA)
+- Scalability - Your ability to grow rapidly or unimpeded
+- Elasticity - Your ability to shrink and grow to meet the demand
+- Faulth Tolerance - Your ability to prevent a failure
+- Disaster Recovery - Your ability to recover from a failure eg Highly Durable (DR)
+
+A solutions architect needs to always consider teh following business factors:
+- (Security) How secure is this solution?
+- (Cost) How much is this going to cost?
+
+1. High Availability
+Your ability for your service to remain available by ensuring there is *no single point of failure and/or ensure a certain level of performance
+Running your workload across multiple Availability Zones ensures that if 1 or 2 AZs become unavailable your service / applications remains available.
+Elastic Load Balancer: A load balancer allows you to evenly distribute traffic to multiple servers in one or more datacenter. If a datacenter or server becomes unavailable (unhealthy) the load balancer will route the traffic to only available datacenters with servers.
+
+2. High Scalability 
+Your ability to increase your capacity based on the increasing demand of traffic, memory and computing power
+Vertical Scaling: Scaling Up - Upgrade to a bigger server
+Horizontal Scaling: Scaling Out - Add more servers of the same size
+
+3. High Elasticity
+Your abiltiy to automatically increase or decrease your capacity based on the current demand of traffic, memory and computing power
+Horizontal Scaling
+  Scaling Out - Add more servers of thes ame size
+  Scaling In - Removing underutilized servers of the same size
+Vertical Scaling is generally hard for traditional architecture so you'll usually only see horizontal scaling described with Elasticity
+Auto Scaling Groups (ASG) is an AWS feature that will automatically add or remove servers based on scaling rules you define based on metrics
+
+4. Fault Tolerance
+Your ability for your service to ensure there is no single point of failure. Preventing the chance of failure
+Failovers is when you have a plan to shift traffic to a redundant system in case the primary system fails
+A common example is having a comy (secondary) of your database where all ongoing changes are synced. The secondary system is not in-use until a fail over occurs and it becomes the primary database.
+RDS Multi-AZ is when you run a duplicate standby database in another Availability Zone in case your primary database fails.
+
+5. High Durability
+Your ability to recover from a disaster and to prevent the loss of data Solutions that recover from a disaster is known as Disaster Recovery (DR)
+- Do you have a backup?
+- How fast can you restore that backup?
+- Does your backup still work?
+- How do you ensure current live data is not corrupt?
+CloudEndure Disaster Recovery continuously replicates your machines into a low-cost staging area in your target AWS account and preferred Region enabling fast and reliable recovery in case of IT data center failures
+
+Business Continuity Plan (BCP)
+A business continuity plan (BCP) is a document that outlines how a business will continue operating during an unplanned disruption in services
+Recovery Point Objective (RPO): the maximum aacceptable amount of data loss after an unplanned data-loss incident, expressed as an amount of time. (How much data are you willing to lose)
+Recovery Time objective (RTO): the maximum amount of downtime your business can tolerate without incurring a significant financial loss (How much time are you willing to go down?)
+
+Disaster Recovery Options
+There are multiple options for recovery that trade cost vs time to recover
+Backup and Restore - RPO/RTO - Hours - You backup your data and restore it to new infrastructure
+  - Lower priority use cases
+  - Restore data after event
+  - Deploy resources after event
+  - Cost $
+Pilot Light - RPO/RTO - 10 minutes - Data is replicated to another region with the minimal services running
+  - Less stringent RPO/RTO
+  - Core Services
+  - Start and scale resources after event
+  - Cost $$
+Warm Standby - RPO/RTO - Minutes - Scaled down copy of your infrastructure running ready to scale up
+  - Business Critical Services
+  - Scale resources after event
+  - Cost $$$
+Multi-site Active/active - RPO/RTO - Real-time - Scaled up copy of your infrastructure in another region
+  - Zero downtime
+  - Near zero loss
+  - Mission critical services
+  - cost $$$$
+
+Recovery Time Objective (RTO)
+is the maximum acceptable delay between the interruption of service and restoration of service. This objective determines what is considered an acceptable time windown when service is unavailable and is defined by the organization
+
+Recovery Point objective (RPO)
+is the maximum acceptable amount of time since the last data recovery point. This objective determines what is considered an acceptable loss of data between the last recovery point and the interruption of service and is defined by the organization
 
