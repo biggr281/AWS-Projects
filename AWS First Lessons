@@ -474,3 +474,31 @@ is the maximum acceptable delay between the interruption of service and restorat
 Recovery Point objective (RPO)
 is the maximum acceptable amount of time since the last data recovery point. This objective determines what is considered an acceptable loss of data between the last recovery point and the interruption of service and is defined by the organization
 
+Architecture Diagrams
+- Adobe XP
+- AWS Architectural Icons
+- AWS Architecture Icons Deck
+
+AWS API
+An Application Prrogramming Interface (API, is software that allows two applications/services to talk to each other. The most common type of API is via HTTP/S requests
+AWS API is an HTTP API and you can interact by sending HTTPS requests, using an application interacting with APIs like Postman
+Each AWS Service has its own Service Endpoint which you send requests. The following is an example
+GET/HTTP/1.1
+host: monitoring.us-east-1.amazonaws.com
+x-amz-target: GraniteServiceVersion20100801.GetMetricData
+x-amz-date: 20180112T092034Z
+Autorization: AWS4-HMAC-SHA256 Credential=REDACTEDREDACTED/20180411/...... (To authorize use you will need generate a signed request. You make a separate request with your AWS credentials and get back a token)
+Content-Type: application/json
+Accept: application/json
+Content-Encoding: amz-1.0
+Content-Length: 45
+Connection: keep-alive
+(Also need to provide an ACTION and accompanying parameters as the payload)
+
+AWS Management Console
+The Console is a web-based unified console that allows one to build, manage, and monitor everything from simple web apps to complex cloud deployments
+Point and Click to manually launch and configure AWS resources with limited programming knowledge.
+This is known as "ClickOps" since you can perform all your system operations via clicks.
+
+
+
