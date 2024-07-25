@@ -500,5 +500,227 @@ The Console is a web-based unified console that allows one to build, manage, and
 Point and Click to manually launch and configure AWS resources with limited programming knowledge.
 This is known as "ClickOps" since you can perform all your system operations via clicks.
 
+Amazon Resource Name (ARN)
+ARNs uniquely identify AWS resources. ARNs are required to specify a resource unambiguously across all of AWS
+ARNs have the following formats
+arn:partition:service:region:account-id:resource-id
+arn:partition:service:region:account-id:resource-type/resource-id
+arn:partition:service:region:account-id:resource-type:resource-id
+
+Partitions:
+aws - AWS Regions
+aws-cn - China Regions
+aws-us-gov - AWS GovCloud (US) Regions
+Service - Identifies the service:
+ec2
+s3
+iam
+Region - which AWS resource
+us-east-1
+ca-central-1
+AccountID:
+121212121212
+123445678912
+Resource ID
+Could be a number, name or path:
+user/Bob
+instance/i-1234567980wrjdvnwn0
+In the AWS Management Console its common to be able to copy the ARN to your clipboard
+
+Shared Responsibility Model
+Customers are responsible for Security IN the Cloud: Data, Configuration
+AWS is responsible for Security OF the Cloud: Hardware, Operation of Managed Services, Global Infrastructure
+Infrastructure as a Service (IaaS)
+Bare Metal - EC2 Bare Metal Instance
+  Customer: The Host OS Configuration
+  AWS: Physical Machine
+Virtual Machine - Elastic Cloud Compute (EC2)
+  Customer: The Guest OS Configuration, Container Runtime
+  AWS: Hypervisor, physical Machine
+Containers - AWS Elastic Container Service (ECS)
+  Customer: Configuration, Deployment of Containers, Storage of containers
+  AWS: The OS, The Hypervisor, Container Runtime
+Platform as a Service (PaaS)
+Managed Platform - AWS Elastic Beanstalk
+  Customer: Uploading your code, Some configuration of environment, Deployment strategies, configuration of associated services
+  AWS: Servers, OS, Networking, Storage, Security
+Software as a Service (SaaS) 
+Content Collaboration - Amazon WorkDocs
+  Customer: Contents of documents, management of files, configuration of sharing access controls
+  AWS: Servers, OS, Networking, Storage, Security
+Function as a Service (FaaS)
+Functions - AWS Lambda
+  Customer: Upload your code
+  AWS: Deployment, Container Runtime, networking, Storage, Security, Physical Machine, (basically everything)
+
+Elastic Compute Cloud (EC2) allows you to launch Virtual Machines (VM)
+A Virtual Machine (VM) is an emulation of a physical computer using software. Server Virtualization allows you to easily create, copy, resize or migrate your server.
+Multiple VMs can run on the same physical server so you can share the cost with other customers.
+Imagine if your server or computer was an excutable file on your computer
+
+When a VM is launched it is called an instance
+
+EC2 is highly configurable server where you can choose AMI (Amazone Machine Image is a predefined configuration for a Virtual Machine) that affects options such as:
+- The amount of CPUs
+- The amout of Memory (RAM)
+- The amount of Network Bandwidth
+- The Operation System (OS) eg Windows 10, Ubuntu, Amazon Linux 2
+- Attach multiple virtual hard-drives for storage eg Elastic Block Store (EBS)
+EC2 is also considered the backbone of AWS because the majority of AWS services are using EC2 as their underlying servers. eg S3, RDS, DynamoDB, Lambdas
+
+Computing Services
+Virtual Machines - an emulation of a physical computer using software
+  Amazon LightSail is the managed virtual server service. It is the "friendly" version of EC2 Virtual Machines
+    When you need to launch a Linux or Windows server but don't have much AWS knowledge. eg. Launch a Wordpress
+Containers - virtualizing an Operation System (OS) to run multiple workloads on a single OS instance. Containers are generally used in micro-service architecture (when you divide your application into smaller applications that talk to each other)
+  Elastic Container Service (ECS) is a container orchestration service that support Docker containers. Launches a cluster of server(s) on EC2 instances with Docker installed.
+    When you need Docker as a service you need to run containers.
+  Elastic Container Registry (ECR) is repository for container images. In order to launch a container you need an image. An image just means a saved copy. A repository just means a storage that has version control
+  ECS Fargate is serverless orchestration container service. it is the same as ECS except you pay-on-demand per running container (With ECS you have to keep an EC2 server running even if you have no containers running ) AWS manages the underlying server, so you don't have to scale or upgrade the EC2 server
+  Elastic Kubernetes Service (EKS) is a fully managed Kubernetes service. Kubernetes (K8) is an open-source orchestration software that was created by Google and is generally the standard for managing microservices (When you need to run Kubernetes as a Service)
+Serverless - when the underlying servers are managed by AWS. You don't worry or configure servers
+  AWS Lambda is a serverless functions service. You can run code without provisioning or managing servers. You upload small pieces of code, choose how much memory and how long the function is allowed to run before timing out. You are charged based on the runtime of the serverless function rounded to the nearest 100ms
+
+Higher Performance Computing Services
+The Nitro System is a combination of dedicated hardware and lightweight hypervisor enabling faster innovation and enhanced security. All new EC2 instance types use the Nitro System.
+- Nitro Cards - specialized cards for VPC, EBS and Instance Storage and controller card
+- Nitro Security Chips - Integrated into motherboard. Protects hardware resources.
+Nitro Hypervisor - lightweight hypervisor Memory and CPU allocation Bare Metal-like performance
+Bare Metal Instance: You can launch EC2 instance that have no hypervisor so you can run workloads directly on the hardware for maximum performance and control. The M5 and R5 EC2 instances run are bare metal
+Bottlerocket is a Linux-based open-source operation system that is purpose-built by AWS for running containers on Virtual Machines or bare metal hosts
+
+What is a High Performance Computing (HPC)? 
+A cluser of hundreds of thousands of servers with fast connections between each of them with the purpose of boosting computing capacity.
+  When you need a supercomputer to perform computational problems too large to run on a standard computers or would take to long
+
+AWS ParallelCluster is an AWS-supported open source cluster management tool that makes it easy for you to deploy and manage High Performance Computing (HPC) clusters on AWS.
+
+Edge and Hybrid Computing Services
+Edge Computing is when you push your computing workloads outside of your networks to run close to the destination location
+  eg pushing computing to run on phones, IoT Devices, or external servers not within your cloud network
+Hybrid Computing is when you're able to run workloads on both your on-premise datacenter and AWS Virtual Private Cloud (VPC)
+Services: 
+  AWS Outposts is a physical rack of servers that you can put in your data center. AWS Outposts allows you to use AWS API and Services such as EC2 right in your datacenter
+  AWS Wavelength allows you to build and launch your applications in a telecom datacenter. By doing this your applications will have ultra-low latency since they will be pushed over the 5G network and be closest as possible to the end user
+  VMWare Cloud on AWS allows you to manage on-premise virtual machines using VMWare as EC2 instances. The data-center must be using VMWare for Virtualization
+  AWS Local Zones are edge datacenters located outside of an AWS region so you can use AWS closer to end destinaton
+    When you need faster computing, storage and databases in populated areas that are outside of an AWS Region
+
+Cost and Capacity Management Computing Services
+Cost Management - How to decrease cost and save money
+Capacity Management How to meet the demand of traffic and usages through adding or upgrading servers
+EC2 Spot Instances, Reserved Instances and Savings Plan: Ways to save on computing, by paying up in full or partially, by committing to a yearly contract or by being flexible about availability and interruption to computing service
+AWS Batch plans, schedules, and executes your batch computing workloads across the full range of AWS compute services, can utilize Spot Intance to save money
+AWS Compute Optimizer suggests how to reduce costs and improve performance by using machine learning to analyze your previous usage history
+EC2 Autoscaling Groups (ASGs): Automatically adds or removes EC2 servers to meet the current demand of traffic. Will save you money and meet capacity since you only run the amount of servers you need
+Elastic Load Balancer (ELB): Distributes traffic to multiple instances, can re-route traffic from unhealthy instance to healthy instances. Can rout traffic to EC2 instances running in different Availability Zones
+AWS Elastic Beanstalk (EB) is for easily deploying web-applications without developers having to worry about setting up and understanding the underlying AWS Services. Similar to Heroku
+
+Types of Storage Services
+Elastic Block Store (EBS) - Block - Data is split into evenly split blocks. Directly accessed by the Operation System. Supports only a single write volume. (When you need a virtual hard drive attached to a VM)
+AWS Elastic File Storage (EFS) - File - File is stored with data and metadata. Multiple connections via a network share. Supports multiple reads, writing locks the file. (When you need a file-share where multiple users or VMs need to access the same drive
+Amazon Simple Storage Service (S3) - Object - Object is stored with data, metadata and Unique ID. Scales with no file limit or storage limit. Supports multiple reads and writes (no locks) (When yo ujust want to upload files, and not have to worry about underlying infrastructure. Not intended for high IOPs (IOP is inputs and outputs)
+
+Introduction to S3
+Object Storage (Object-based Storage) is data storage architecture that manages data as objects, as opposed to other storage architectures:
+- file systems which manages data as a file and fire hierarchy, and
+- block storage which manages data as blocks within sectors and tracks
+S3 provides unlimited storage, you don't need to think about the underlying infrastructure. The S3 console provides an interface for you to upload and access your data
+S3 Object: Objects contain your data. They are like files. Objects pay consist of: Key, this is the name of the object; Value the data itself made up of a sequence of bytes; Version ID when versioning enabled, the version of object; Metadata additional information attached to the object
+S3 Bucket: Buckets hold objects. Buckets can also have folders which in turn hold objects. S3 is a universal namespace so bucket names must be unique (like having a domain name)
+  Each individual object can range in size from 0 Bytes to 5 Terabytes 
+
+S3 Storage classes - AWS offers a range of S3 storage classes that trade Retrieval Time, Accessibility and Durability for Cheaper Storage
+S3 Standard (Default) - Fast! 99.99% Availability, 11 9's Durability. Replicated across at least three AZs.
+S3 Intelligent Tiering - Uses ML to analyze object usage and determine the appropriate storage class. Data is moved to the most cost-effective access tier, without any performance impact or added overhead
+S3 Standard-IA (Infrequent Access) - Still fast! Cheaper if you access files less than once a month. Additional retrieval fee is applied. 50% less than Standard (reduced availability)
+S3 One-Zone-IA - Still fast! Objects only exist in one AZ. Availability (is 99.5%). Cheaper than Standard IA by 20% less (reduced durability) Data could get destroyed. A retrieval fee is applied
+S3 Glacier 0 For long-term cold storage. Retrieval of data can take minutes to hours but the off is very cheap storage
+S3 Glacier Deep Archive - The lowest cost storage class. Data retrieval time is 12 hours
+
+AWS Snow Family - Data is delivered to Amazon S3
+Snowcone - comes in two sizes: 8TH of Storage (HHD), 14 TB of Storage (SSD)
+Snowball Edge - generally comes in two types: storage optimized 80TB and compute optimized 39.5 TB
+Snowmobile - 100PB
+
+Storage Services
+Simple Storage Service (S3) is a serverless object storage service. You can upload very large files and an unlimited amount of files. You pay for what you store. You don't wrory about the underlying file-system, or upgrading the disk size.
+S3 Glacier is a cold storage service. It is designed as a low cost storage solution for archiving and long-term backup. It uses previous generation HDD drives to get that low cost. its highly secure and durable.
+Elastic Block Store (EBS) is a persistent block storage service. It is a virtual hard drive in the cloud you attach to EC2 instances. You can choose different kinds of hard drives: SSD, IOPS SSD, Throughput HHD, Cold HHD
+Elastic File Storage (EFS) is a cloud-native NFS file system service. File storage you can mount to multiple EC2 instances at the same time. when you need to share files between multiple servers
+Storage Gateway is a hybrid cloud storage service that extends your on-premise storage to cloud
+  File Gateway extends your local storage to AWS S3
+  Volume Gateway caches your local drives to S3 so you have a continious backup of local files in the cloud
+  Tape Gateway stores files onto virtual tapes for backing up your files on very cost effective long term storage
+AWS Snow Family are storage devices used to physically migrate large amouts of data to the cloud.
+  Snowball Edge are briefcase size data storage devices. 50-80 TB
+  Snowmobile is a cargo container filled with racks of storage and compute that is transported via semi-trailer tractor truck to transfer up to 100PB of data per trailer
+  Snowcone is a very small version of Snowball that can transfer 8TB of data
+AWS Backup is a fully managed backup service that makes it easy to centralize and automate the backup of data across multiple AWS services eg EC2, EBS, RDS, DynamoDB, EFS, Storage Gateway. You create backup plans
+CloudEndure Disaster Recovery continuously replicates your machines into a low-cost staging area in your target AWS account and preferred Region enabling fast and reliable recovery in case of IT data center failures
+Amazon FSx is a feature rich and highly-performant file system. That can be used for Windows (SMB) or Linux (lsutre)
+  Amazon FSx for Window File Server uses the SMB protocol and allows you to mount FSx to Windows servers
+  Amazon FSx for Lustre uses Linux's Lustre file system and allows you to mount FSx to Linux servers
+
+What is a database? A database is a data-store that stores semi-structured and structured data
+A database is more complex data stores because it requres using formal design and modeling techniques
+Databases can generally be categorized as either:
+- Relational databases
+  - Structured data that strongly represents tabular data (tables, rows and columns)
+    - Row-oriented or columnar-oriented
+- Non-relational databases
+  - Semi-structured that may or may not distantly resemble tabular data
+Databases have a rich set of functionality:
+- specialized language to query (retrieve data)
+- specialized modeling strategies to optimize retrieval for different use cases
+- more fine tune control over the transmofration of the data into useful data structures or reports
+(Normally a database infers someone is using a relational row-oriented data store)
+
+What is Data Warehousing? - A relational datastore designed for analytic workloads, which is generally column-oriented data-store
+Companies will have terabytes and millions of rows of data, and they need a fast way to be able to produce analytics reports 
+Data warehouses generally perform aggregation
+- aggregation is grouping data eg find a total or average
+- Data warehouses are optimized around columns since they need to quickly aggerate column data
+Data warehouses are generally designed to be HOT
+- Hot means they can return queries very fast even though they have vast amounts of data
+Data warehouses are infrequently accessed meaning they aren't intended for real-time reporting but maybe once or twice a day or once a week to generate business and user reports.
+A data warehouse needs to consume data from a relational database on a regular bassis
+
+Hey/Value Stores - A key-value database is a type of non-relational database (NoSQL) that uses a simple key-value method to store data.
+Key values stores are dubm and fast. They generally lack features like: relationships, indexes, aggregation
+A key/value stores a unique key alongside a value
+A simple key/value store will interpret this data resembling a dictionary (aka Associative arrays or hash)
+A key/value store can resemble tabular data, it does not have to have the consistent columns per row (hence its schemaless)
+Due to the simple design they can scale well beyond a relational database
+
+What is a Document store? A document store is a NOSQL database that stores documents as its primary data structure. A document could be an XML but moer commonly is JSON or JSON-Like. Document stores are sub-class of Key/Value stores
+
+NoSQL Database Service
+DynamoDB is a serverless NoSQL key/value and document database. It is designed to scale to billions of records with guaranteed consistent data return in at least a second. You don't have to worry about managing shards!
+DynamoDB is AWS's flagship database service meaning whenever we think of a database service that just scales, is cost effective and very fast we should think DynamoDB
+In 2019, Amazon the online shopping retail shutdown their last Oracle database and completed their migration to DynamoDB. They had 7500 Oracle Database and 75 PB of data. With DynamoDB they reduced cost by 60% and reduced latency by 40%.
+DocumentDB is a NoSQL document database taht is "MongoDB compatible". MongoDB is very popular NoSQL among developers. There were open-source licensing issues around using open-source MongoDB, so AWS got around it by just building their own MongoDB database.
+Amazon Keyspaces is a fully managed Apache Cassandra database. Cassandra is an open-source NoSQL Key/Value database similar to DynamoDB in that it is columnar store database but has some additional functionality.
+
+Relational Database Services
+RDS - Relashional Database Service supports multiple SQL engines. Relatinoal is synonymous with SQL and Online Transactional Processing (OLTP). Relational databases are the most commonly used type of database among tech companies and start-ups.
+RDS Supports the following SQL Engines:
+- MySQL - The most popular open-source SQL database that was purchased and now owned by Oracle
+- MariaDB - When Oracle bought MySQL. MariaDB made a fork (copy) of MySQL was made under a different open-source license.
+- Postgres (PSQL) - Most popular open-source SQL database among developers. Has rich-features over MySQL but at added complexity
+- Oracle - Oracle's proprietary SQL database. Well used by enterprise companies. You have to buy a license to use it
+- Microsoft SQL Server - Microsoft's proprietary SQL database. You have to buy a license to use it
+- Aurora - Fully managed database
+  - Aurora is a fully managed database of either MySQL (5x faster) and PSQL (3x faster) database. (When you want a highly availabile, durable, scalable and secure relational database for Postgres or MySQL
+  - Aurora Serverless is the serverless on-demand version of Aurora. When you want "most" of the benefits of Aurora but can trade to have cold-starts or you dont have lots of traffic demand
+  - RDS on VMware allows you to deploy RDS supported engines to an on-premise data-center. The data center must be using VMware for server virtualization. (When you want databases managed by RDS on your own datacenter)
+
+Other Database Services
+Redshift is a petabyte-size data-warehouse. Data-warehouses are for Online Analytical Processing (OLAP). Data-warehouses can be expensive because tehy are keeping data "hot". Meaning that we can run a very complex query and a large amount of data and get that data bace very fast (When you quickly generate analytics or reports from a large amount of data)
+ElastiCache is a managed database of the in-memory and caching open-source databases Redis or Memcached. (When you need to improve the performance of application by adding a caching layer in-front of web0server or database.
+Neptune is a managed graph database. Data is represented as interconnected nodes. (When you need to understand the connections between data eg Mapping Fraud Rings or Social Media relationships)
+Amazon Timestreams is a fully managed time series database. think of devices that send lots of data that are time-sensitive such as IoT devices. (When you need to measure how things change over time)
+Amazon Quantum Ledger Database is a fully managed ledger database taht provides transparent, immutable, and cryptographically variable transaction logs. (When you need to record history of financial activities that can be trusted
+Database Migration Service (DMS) is a database migration service. You can migrate from: on-premises database to AWS, from two database in different or same AWS accounts using different SQL engines, from a SQL to NoSQL database
 
 
